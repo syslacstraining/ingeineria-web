@@ -10,7 +10,7 @@ use App\Models\v1\Producto;
 class ProductosController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * mi aplicacion de pruebas de produtos.
      *
      * @return \Illuminate\Http\Response
      */
