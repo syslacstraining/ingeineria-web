@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+
+
+<script type="text/javascript">
+	$.ajax(
+		{
+			method:"GET",
+			url:"http://semana05.com/api/productos"
+		}
+	)
+	.done(function(response){
+
+		console.log(response);
+
+		data = response.data;
+
+		for(i=0;i<data.length;i++)
+		{
+			document.write(data[i].codigo);
+			document.write("<br>");
+		}
+	});
+
+
+</script>
+
+</body>
+</html>
