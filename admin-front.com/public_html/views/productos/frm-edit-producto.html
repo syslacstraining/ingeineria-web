@@ -1,9 +1,9 @@
-<div id="mdlNewProducto" class="modal fade" role="dialog">
+<div id="mdlEditProducto" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5>Nuevo producto</h5>
+        <h5>Editar producto</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
           </button>
@@ -11,7 +11,9 @@
 
       <div class="modal-body">
        
-        <form id="formNuevoProducto">
+        <form id="formEditProducto">
+
+          <input type="hidden" name="txtId" id="txtId">
 
                 <div class="card-body">
 
@@ -61,7 +63,7 @@
 
 function closeModal()
 {
-  $('#mdlNewProducto').modal("hide");
+  $('#mdlEditProducto').modal("hide");
 }
 
 
@@ -70,10 +72,12 @@ $(function () {
     submitHandler: function () {
 
       
-    $.ajax({
-      method: "POST",
+      console.log($("#txtId").val());
+
+      $.ajax({
+      method: "put",
       url: "http://apis-app.com/api/v1/productos",
-      data: { codigo: $("#txtCodigo").val(), nombre: $("#txtNombre").val(),precio:$("#txtPrecio").val() }
+      data: { id:$("#txtId").val(),codigo: $("#txtCodigo").val(), nombre: $("#txtNombre").val(),precio:$("#txtPrecio").val() }
     })
       .done(function( msg ) {
  
@@ -81,11 +85,11 @@ $(function () {
     $("#txtNombre").val("");
     $("#txtPrecio").val("");
 
-    $('#mdlNewProducto').modal("hide");
+    $('#mdlEditProducto').modal("hide");
 
     updateDataTable();
     
-    console.log("el producto ha sido guardado");
+   
 
       });
 
@@ -96,7 +100,7 @@ $(function () {
     }
   });
 
-  $('#formNuevoProducto').validate({
+  $('#formEditProducto').validate({
     rules: {
       txtCodigo: {
         required: true
