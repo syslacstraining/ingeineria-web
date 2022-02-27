@@ -6,24 +6,28 @@ use Illuminate\Database\Eloquent\Model;
 use BinaryCabin\LaravelUUID\Traits\HasUUID;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Models\v1\Categoria;
 
-
-
-class Producto extends Model
+class Categoria extends Model
 {
     use HasUUID;
     use SoftDeletes;
     
-    protected $table = 'productos'; 
+    protected $table = 'Categorias'; 
 
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $uuidFieldName = 'id';    
+    protected $uuidFieldName = 'id';   
 
-    function categoria()
+    /*
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];*/ 
+
+    public function productos()
     {
-        return $this->belongsTo(Categoria::class,"categoria_id");
+        return $this->hasMany(Producto::class,"categoria_id");
     }
 }

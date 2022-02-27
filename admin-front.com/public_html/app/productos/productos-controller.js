@@ -28,6 +28,17 @@ DT_PRODUCTOS=$('#listProductos').DataTable( {
             {
                 "targets": 3,
                 "render": function ( data, type, row ) {
+                    
+                    if(row.categoria)
+                        return row.categoria.nombre;
+                    else
+                        return "";
+                },
+                
+            },
+            {
+                "targets": 4,
+                "render": function ( data, type, row ) {
                     return "<a href='#' onclick=\"loadEditProducto('"+row.id+"')\">Editar</a> | <a href='#' onclick=\"loadConfirmDelete('"+row.id+"');\">Eliminar</a>";
                 },
                 

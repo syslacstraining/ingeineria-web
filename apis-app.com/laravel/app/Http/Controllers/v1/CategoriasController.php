@@ -2,74 +2,72 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
-use App\Models\v1\Producto;
+use App\Models\v1\Categoria;
 use Illuminate\Http\Request;
 
-class ProductosController extends Controller
+class CategoriasController extends Controller
 {
 	function obtenerLista()
 	{
-		$productos =  Producto::with("categoria")->get();
-		//$productos =  Producto::select("productos.*","categorias.codigo as codigo_categoria","categorias.nombre as categoria_nombre")->join("categorias","productos.categoria_id","categorias.id")->get();
+		$categorias =  Categoria::all();
+
 
 		$response = new \stdClass();
 		$response->success=true;
-		$response->data=$productos;
+		$response->data=$categorias;
 
 		return response()->json($response,200);
 	}
 
 	function obtenerItem($id)
 	{
-		$producto =  Producto::where("id","=",$id)
-		->with("categoria")
-		->get();
+		$categoria =  Categoria::find($id)->with("categoria");
 
 
 		$response = new \stdClass();
 		$response->success=true;
-		$response->data=$producto;
+		$response->data=$categoria;
 
 		return response()->json($response,200);
 	}
 
 	function update(Request $request)
 	{
-		$producto =  Producto::find($request->id);
+		$categoria =  Categoria::find($request->id);
 
-		if($producto)
+		if($categoria)
 		{
-			$producto->codigo=$request->codigo;
-			$producto->nombre=$request->nombre;
-			$producto->save();
+			$categoria->codigo=$request->codigo;
+			$categoria->nombre=$request->nombre;
+			$categoria->save();
 		}
 
 		$response = new \stdClass();
 		$response->success=true;
-		$response->data=$producto;
+		$response->data=$categoria;
 
 		return response()->json($response,200);
 	}
 
 	function patch(Request $request)
 	{
-		$producto =  Producto::find($request->id);
+		$categoria =  Categoria::find($request->id);
 
-		if($producto)
+		if($categoria)
 		{
 			
 			if(isset($request->codigo))
-			$producto->codigo=$request->codigo;
+			$categoria->codigo=$request->codigo;
 
 			if(isset($request->nombre))
-			$producto->nombre=$request->nombre;
+			$categoria->nombre=$request->nombre;
 		
-			$producto->save();
+			$categoria->save();
 		}
 
 		$response = new \stdClass();
 		$response->success=true;
-		$response->data=$producto;
+		$response->data=$categoria;
 
 		return response()->json($response,200);
 	}
@@ -77,15 +75,14 @@ class ProductosController extends Controller
 
 	function store(Request $request)
 	{
-		$producto = new Producto();
-		$producto->codigo = $request->codigo;
-		$producto->nombre = $request->nombre;
-		$producto->categoria_id = $request->categoria_id;
-		$producto->save();
+		$categoria = new Categoria();
+		$categoria->codigo = $request->codigo;
+		$categoria->nombre = $request->nombre;
+		$categoria->save();
 
 		$response = new \stdClass();
 		$response->success=true;
-		$response->data=$producto;
+		$response->data=$categoria;
 
 		return response()->json($response,200);
 	}
@@ -97,11 +94,11 @@ class ProductosController extends Controller
 		$response_code=200;
 
 
-		$producto = Producto::find($id);
+		$categoria = Categoria::find($id);
 		
-		if($producto)
+		if($categoria)
 		{
-			$producto->delete();
+			$categoria->delete();
 			$response->success=true;
 			$response_code=200;
 		}

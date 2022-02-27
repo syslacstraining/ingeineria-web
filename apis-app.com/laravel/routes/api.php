@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\v1\ProductosController;
+use App\Http\Controllers\v1\CategoriasController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +29,10 @@ Route::post('/v1/productos', [ProductosController::class, 'store']);
 Route::put('/v1/productos', [ProductosController::class, 'update']);
 Route::patch('/v1/productos', [ProductosController::class, 'patch']);
 Route::delete('/v1/productos/{id}', [ProductosController::class, 'delete']);
+
+Route::get('/v1/categorias', [CategoriasController::class, 'obtenerLista']);
+Route::get('/v1/categorias/{id}', [CategoriasController::class, 'obtenerItem']);
+Route::post('/v1/categorias', [CategoriasController::class, 'store']);
+Route::put('/v1/categorias', [CategoriasController::class, 'update']);
+Route::patch('/v1/categorias', [CategoriasController::class, 'patch']);
+Route::delete('/v1/categorias/{id}', [CategoriasController::class, 'delete']);
