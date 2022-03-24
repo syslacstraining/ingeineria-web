@@ -12,7 +12,7 @@ class Categoria extends Model
     use HasUUID;
     use SoftDeletes;
     
-    protected $table = 'Categorias'; 
+    protected $table = 'categorias'; 
 
     protected $primaryKey = 'id';
     public $incrementing = false;

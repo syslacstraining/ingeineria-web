@@ -40,7 +40,8 @@ function deleteProducto()
 {
   $.ajax({
       method: "delete",
-      url: "http://apis-app.com/api/v1/productos/"+PRODUCTO_TO_DELETE,
+      headers: {"Authorization": "Bearer "+_token},
+      url: APIS_URL+"/api/v1/productos/"+PRODUCTO_TO_DELETE,
     })
     .done(function( msg ) {
  

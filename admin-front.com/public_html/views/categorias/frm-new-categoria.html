@@ -1,9 +1,9 @@
-<div id="mdlEditProducto" class="modal fade" role="dialog">
+<div id="mdlNewCategoria" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5>Editar producto</h5>
+        <h5>Nueva Categoria</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
           </button>
@@ -11,9 +11,7 @@
 
       <div class="modal-body">
        
-        <form id="formEditProducto">
-
-          <input type="hidden" name="txtId" id="txtId">
+        <form id="formNuevaCategoria">
 
                 <div class="card-body">
 
@@ -31,11 +29,7 @@
                   </div>
 
 
-                  <div class="form-group">
-                    <label for="txtPrecio">Precio</label>
-                    <input type="Number" name="txtPrecio" class="form-control" id="txtPrecio" placeholder="Ingrese precio">
-                  </div>
-
+                
                  </div>
 
 
@@ -63,7 +57,7 @@
 
 function closeModal()
 {
-  $('#mdlEditProducto').modal("hide");
+  $('#mdlNewCategoria').modal("hide");
 }
 
 
@@ -72,21 +66,19 @@ $(function () {
     submitHandler: function () {
 
       
-      console.log($("#txtId").val());
-
-      $.ajax({
-      method: "put",
+    $.ajax({
+      method: "POST",
       headers: {"Authorization": "Bearer "+_token},
-      url: APIS_URL+"/api/v1/productos",
-      data: { id:$("#txtId").val(),codigo: $("#txtCodigo").val(), nombre: $("#txtNombre").val(),precio:$("#txtPrecio").val() }
+      url: APIS_URL+"/api/v1/categorias",
+      data: { codigo: $("#txtCodigo").val(), nombre: $("#txtNombre").val() }
     })
       .done(function( msg ) {
  
     $("#txtCodigo").val("");
     $("#txtNombre").val("");
-    $("#txtPrecio").val("");
+   
 
-    $('#mdlEditProducto').modal("hide");
+    $('#mdlNewCategoria').modal("hide");
 
     updateDataTable();
     
@@ -101,15 +93,12 @@ $(function () {
     }
   });
 
-  $('#formEditProducto').validate({
+  $('#formNuevaCategoria').validate({
     rules: {
       txtCodigo: {
         required: true
       },
       txtNombre: {
-        required: true
-      },
-      txtPrecio: {
         required: true
       }
     },
@@ -119,9 +108,6 @@ $(function () {
       },
       txtNombre: {
         required: "Ingrese el nombre"
-      },
-      txtPrecio: {
-        required: "Ingrese el precio"
       }
     },
     errorElement: 'span',

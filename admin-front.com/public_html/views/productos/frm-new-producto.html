@@ -18,6 +18,19 @@
 
                 <div class="col-md-12">
 
+                 <div class="form-group">
+                  <label for="exampleSelectBorder">Imagen:</label>
+                  <input type="file" name="fImagen" id="fImagen">
+                </div>
+                  
+                <div class="form-group">
+                  <label for="exampleSelectBorder">Categorias:</label>
+                  <select class="custom-select form-control-border" id="ddlCategorias">
+                    <option>Selecciona una opcion ...</option>
+                    
+                  </select>
+                </div>
+
                   <div class="form-group">
                     <label for="txtCodigo">Código</label>
                     <input type="text" name="txtCodigo" id="txtCodigo" class="form-control" placeholder="Ingrese código">
@@ -69,11 +82,55 @@ $(function () {
   $.validator.setDefaults({
     submitHandler: function () {
 
+      var request_object={};
+
+      request_object.codigo=$("#txtCodigo").val();
+      request_object.nombre=$("#txtNombre").val();
+      request_object.precio=$("#txtPrecio").val();
+      request_object.categoria_id=$("#ddlCategorias").val();
+
+      var fileInput = document.getElementById('fImagen');
+
+      var file=fileInput.files[0];
+
+      var arry_name = file.name.split(".");
+
+      var nombre_imagen = arry_name[0];
+      var extension_imagen = arry_name[1];
+
+      var reader = new FileReader();
+      reader.readAsDataURL(fileInput.files[0]);
+
+      reader.onload = function () {
+
+        var data = reader.result;
+        var arry_data = data.split(",");
+
+        data = arry_data[1];
+
+        request_object.imagen={};
+        request_object.imagen.nombre=nombre_imagen;
+        request_object.imagen.extension=extension_imagen;
+        request_object.imagen.data = data;
+
+        guardarProducto(request_object);
+
+        console.log(request_object);//base64encoded string
+      };
+      reader.onerror = function (error) {
+        console.log('Error: ', error);
+      };
+
+      console.log();
+
+
+      /*
       
     $.ajax({
       method: "POST",
-      url: "http://apis-app.com/api/v1/productos",
-      data: { codigo: $("#txtCodigo").val(), nombre: $("#txtNombre").val(),precio:$("#txtPrecio").val() }
+      headers: {"Authorization": "Bearer "+_token},
+      url: APIS_URL+"/api/v1/productos",
+      data: { codigo: $("#txtCodigo").val(), nombre: $("#txtNombre").val(),precio:$("#txtPrecio").val(),categoria_id: $("#ddlCategorias").val()}
     })
       .done(function( msg ) {
  
@@ -86,15 +143,44 @@ $(function () {
     updateDataTable();
     
     console.log("el producto ha sido guardado");
+  
+    
 
       });
 
-
+*/
 
 
 
     }
   });
+
+  function guardarProducto(params)
+  {
+      $.ajax({
+      method: "POST",
+      headers: {"Authorization": "Bearer "+_token},
+      url: APIS_URL+"/api/v2/productos",
+      data: params
+    })
+      .done(function( msg ) {
+ 
+      $("#txtCodigo").val("");
+      $("#txtNombre").val("");
+      $("#txtPrecio").val("");
+
+      $('#mdlNewProducto').modal("hide");
+
+      updateDataTable();
+    
+        console.log("el producto ha sido guardado");
+  
+    
+
+      });
+  }
+
+
 
   $('#formNuevoProducto').validate({
     rules: {

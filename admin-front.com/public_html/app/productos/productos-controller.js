@@ -6,7 +6,8 @@ $(document).ready(function(){
 DT_PRODUCTOS=$('#listProductos').DataTable( {
         "ajax":{
             type: 'get',
-            url: "http://apis-app.com/api/v1/productos",
+            url: APIS_URL+"/api/v1/productos",
+            headers: {"Authorization": "Bearer "+_token},
             dataSrc: 'data',
             cache: true
             },
@@ -23,10 +24,27 @@ DT_PRODUCTOS=$('#listProductos').DataTable( {
                 },
                 
             },
+            {
+                "targets": 1,
+                "render": function ( data, type, row ) {
+
+                    if(row.imagen_path)
+                    {
+                        return "<img width='80px' src='http://apis.miapp.syslacsdev.com"+row.imagen_path+"'>";
+                    }
+                    else
+                    {
+                        return "";
+                    }
+
+                    
+                },
+                
+            },
             { data: 'codigo' },
             { data: 'nombre' },
             {
-                "targets": 3,
+                "targets": 4,
                 "render": function ( data, type, row ) {
                     
                     if(row.categoria)
@@ -37,7 +55,7 @@ DT_PRODUCTOS=$('#listProductos').DataTable( {
                 
             },
             {
-                "targets": 4,
+                "targets": 5,
                 "render": function ( data, type, row ) {
                     return "<a href='#' onclick=\"loadEditProducto('"+row.id+"')\">Editar</a> | <a href='#' onclick=\"loadConfirmDelete('"+row.id+"');\">Eliminar</a>";
                 },
@@ -74,10 +92,33 @@ function loadConfirmDelete(id)
 function loadNewProducto()
 {
 
-    $("#modalContainer1").load("/views/productos/frm-new-producto.html",function(response){
+    $("#modalContainer1").load("/views/productos/frm-new-producto.html?v=3.6",function(response){
 
 
-        $('#mdlNewProducto').modal({ show: true,  backdrop: 'static', size: 'lg', keyboard: false });
+        $.ajax({
+          method: "GET",
+          headers: {"Authorization": "Bearer "+_token},
+          url: APIS_URL+"/api/v1/categorias"
+        })
+        .done(function( response ) {
+
+
+            for(i=0;i<response.data.length;i++)
+            {
+                item = response.data[i];
+
+                $("#ddlCategorias").append(new Option(item.nombre,item.id));
+            }
+
+        
+            $('#mdlNewProducto').modal({ show: true,  backdrop: 'static', size: 'lg', keyboard: false });
+
+
+          });
+
+
+
+        
 
     });
 
@@ -103,7 +144,8 @@ function loadDataProducto(id)
 {
     $.ajax({
       method: "GET",
-      url: "http://apis-app.com/api/v1/productos/"+id
+      headers: {"Authorization": "Bearer "+_token},
+      url: APIS_URL+"/api/v1/productos/"+id
     })
     .done(function( response ) {
 
