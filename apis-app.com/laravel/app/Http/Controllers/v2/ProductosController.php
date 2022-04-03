@@ -91,6 +91,7 @@ class ProductosController extends Controller
 		$producto->codigo = $request->codigo;
 		$producto->nombre = $request->nombre;
 		$producto->categoria_id = $request->categoria_id;
+		$producto->precio = $request->precio;
 		$producto->imagen_path = ($request->imagen)?"/imagenes/".$request->imagen["nombre"].".".$request->imagen["extension"]:"";
 
 		$producto->save();

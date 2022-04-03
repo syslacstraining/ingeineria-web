@@ -10,6 +10,9 @@ use App\Http\Controllers\v1\CategoriasController;
 use App\Http\Controllers\v1\UsersController;
 use App\Http\Controllers\v1\SeguridadController;
 
+use App\Http\Controllers\v2\PagosController;
+
+use App\Http\Controllers\v2\PedidosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,19 +29,24 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/v1/productos', [ProductosController::class, 'obtenerLista']);
+Route::get('/v1/productos/{id}', [ProductosController::class, 'obtenerItem']);
+
+
+Route::get('/v2/productos', [App\Http\Controllers\v2\ProductosController::class, 'obtenerLista']);
+Route::get('/v2/productos/{id}', [App\Http\Controllers\v2\ProductosController::class, 'obtenerItem']);
+
+
 
 Route::middleware('auth:api')->group(function(){
-
-    Route::get('/v1/productos', [ProductosController::class, 'obtenerLista']);
-    Route::get('/v1/productos/{id}', [ProductosController::class, 'obtenerItem']);
+    
     Route::post('/v1/productos', [ProductosController::class, 'store']);
     Route::put('/v1/productos', [ProductosController::class, 'update']);
     Route::patch('/v1/productos', [ProductosController::class, 'patch']);
     Route::delete('/v1/productos/{id}', [ProductosController::class, 'delete']);
 
 
-    Route::get('/v2/productos', [App\Http\Controllers\v2\ProductosController::class, 'obtenerLista']);
-    Route::get('/v2/productos/{id}', [App\Http\Controllers\v2\ProductosController::class, 'obtenerItem']);
+
     Route::post('/v2/productos', [App\Http\Controllers\v2\ProductosController::class, 'store']);
     Route::put('/v2/productos', [App\Http\Controllers\v2\ProductosController::class, 'update']);
     Route::patch('/v2/productos', [App\Http\Controllers\v2\ProductosController::class, 'patch']);
@@ -55,6 +63,18 @@ Route::middleware('auth:api')->group(function(){
 
     Route::post('/v1/users', [UsersController::class, 'store']);
 
+    Route::get('/v1/users/get-user', [UsersController::class, 'getUser']);
+
+
+
+    Route::post('/v2/pagos/culqi', [PagosController::class, 'pagarCulqi']);
+
+    Route::post('/v2/pedidos', [PedidosController::class, 'pagarCulqi']);
+
+
 });
+
+
+ Route::post('/v1/users/clientes', [UsersController::class, 'guardarCliente']);
 
 Route::post('/v1/seguridad/login', [SeguridadController::class, 'login']);

@@ -84,7 +84,7 @@
 <!-- Bootstrap 4 -->
 <script src="/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<script type="text/javascript" src="/app/config.js"></script>
+<script type="text/javascript" src="/app/config.js?v=3.1"></script>
 
 
 <!-- jquery-validation -->
@@ -101,7 +101,7 @@ $(function () {
       
     $.ajax({
       method: "POST",
-      url: "http://apis.miapp.syslacsdev.com/api/v1/seguridad/login",
+      url: "https://apis.miapp.syslacsdev.com/api/v1/seguridad/login",
       data: { email: $("#txtEmail").val(), password: $("#txtPassword").val()}
     })
       .done(function( response ) {

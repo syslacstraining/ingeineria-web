@@ -1,1 +1,1 @@
-var APIS_URL="http://apis.miapp.syslacsdev.com";
+var APIS_URL="https://apis.miapp.syslacsdev.com";
